@@ -121,7 +121,7 @@ from keras.layers import Dense
 from keras.layers import Activation
 from keras.layers import Dropout
 # количество эпох\итераций для обучения
-epochs = 8
+epochs = 6
 
 print(u'Собираем модель...')
 model = Sequential()
@@ -135,12 +135,17 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
+from keras.utils import plot_model
+plot_model(model, to_file='model.png', show_shapes=True)
+
 print(model.summary())
 
 history = model.fit(X_train, y_train,
                     batch_size=32,
                     epochs=epochs,
                     verbose=1)
+
+model.save_weights(f'./checkpoints/MPL_{epochs}_{len(X_train)}')
 
 score = model.evaluate(X_test, y_test,
                        batch_size=32, verbose=1)
@@ -150,7 +155,7 @@ print(u'Оценка точности модели: {}'.format(score[1]))
 
 
 import winsound
-winsound.PlaySound('sound.wav', winsound.SND_FILENAME)
+winsound.PlaySound('sound.wav', winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 import matplotlib.pyplot as plt
 

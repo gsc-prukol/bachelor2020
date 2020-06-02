@@ -142,16 +142,20 @@ model.compile(loss='binary_crossentropy',
 print (model.summary())
 
 batch_size = 16
-epochs = 2
+epochs = 1
+from keras.utils import plot_model
+plot_model(model, to_file='modelLSTM.png', show_shapes=True)
 
 print(u'Тренируем модель...')
 history = model.fit(X_train, y_train,
           batch_size=batch_size,
           epochs=epochs)
 
+model.save_weights(f'./checkpoints/LSTM_{epochs}_{len(X_train)}')
+
 score = model.evaluate(X_test, y_test,
                        batch_size=batch_size, verbose=1)
-print()
+print(score)
 print(u'Оценка теста: {}'.format(score[0]))
 print(u'Оценка точности модели: {}'.format(score[1]))
 
