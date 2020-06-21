@@ -1,4 +1,5 @@
 import json
+
 #
 # i = 1
 # with open('dataset_business.json', encoding='ANSI') as bf:
@@ -14,7 +15,6 @@ import json
 #         j = json.dumps(dictb)
 #         print(j, file=bc)
 
-
 # створення датасету меншої довжини
 i = 1
 with open('dataset_review.json', encoding='utf8') as bf:
@@ -22,11 +22,13 @@ with open('dataset_review.json', encoding='utf8') as bf:
         for line in bf:
             try:
                 r = json.loads(line)
+                if float(r['stars']) < 4.0:
+                    continue
                 j = json.dumps({'text': r['text'], 'business_id': r['business_id']})
                 print(j, file=bc)
-            except:
+            except():
                 continue
-            if i > 10000:
+            if i > 100000:
                 break
             if i % 1000 == 0:
                 print(i)
@@ -36,7 +38,7 @@ with open('dataset_review.json', encoding='utf8') as bf:
 i = 0
 count = 0
 with open('dataset_review_short2.json') as rev:
-    with open('bisiness_category2.json') as bc:
+    with open('bisiness_category3.json') as bc:
         b = json.loads(bc.read())
         with open('review_category2.json', 'w') as rc:
             for line in rev:
@@ -52,9 +54,11 @@ with open('dataset_review_short2.json') as rev:
                 j = json.dumps({'review': r['text'].strip().lower(), 'category': categories})
                 print(j, file=rc)
                 i += 1
-                # if count % 1000 == 0:
-                #     print(f'count lines = {count}, i = {i}')
+                if count % 1000 == 0:
+                    print(f'count lines = {count}, i = {i}')
 
+# def get_category(text):
+#     if ''
 # i = 1
 # with open('dataset_business.json', encoding='utf8') as bf:
 #     with open('category.json', 'w') as bc:
@@ -108,4 +112,5 @@ with open('dataset_review_short2.json') as rev:
 
 print('End!')
 import winsound
+
 winsound.PlaySound('sound.wav', winsound.SND_FILENAME)
